@@ -5,7 +5,7 @@
 int main(int argc, char* argv[])
 {
     int n = 262144;
-    double sum, aux;
+    double sum;
     double a[n], b[n];
 
     for (int i = 0; i < n; i++)
@@ -15,20 +15,12 @@ int main(int argc, char* argv[])
     }
     
     sum = 0;
-    
-    #pragma omp parallel shared(a, b, n, sum) private(aux)
-	{
-        aux = 0;
-        
-        #pragma omp for
-        for (int i = 1; i < n; i++)
-        {
-            aux += a[i] * b[i];
-        }
 
-        #pragma omp critical
-        sum += aux;
+	for (int i = 1; i < n; i++)
+	{
+		sum += a[i] * b[i];
 	}
 
     printf("A soma é: %2.f", sum);
 }
+
